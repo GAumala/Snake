@@ -28,14 +28,14 @@ func getByteFromPort(port *serial.Port) byte {
 
 func getKeyFromByte(b byte) string {
     switch b {
-    case 0:
-        return "up"
-    case 1:
-        return "right"
-    case 2:
-        return "down"
-    case 3:
-        return "left"
+    case 7:
+        return "w"
+    case 6:
+        return "d"
+    case 5:
+        return "s"
+    case 4:
+        return "a"
     default:
         return "k"
     }
