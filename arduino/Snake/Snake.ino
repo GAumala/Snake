@@ -3,6 +3,7 @@ void setup(){
 }
 
 void loop(){
-  Serial.write(1);
+  byte b = 65;
+  Serial.write(b);
   delay(1000);
 }
