@@ -2,6 +2,8 @@
 *.o
 *.a
 *.so
+Snake-SDL/*.o
+Snake-SDL/snake
 
 # Folders
 _obj
