@@ -34,13 +34,11 @@ byte getInput() {
 
 ISR (PCINT2_vect) // handle pin change interrupt for D0 to D7 here
 {
-    byte newInput = getInput();
-    if (newInput && newInput != currentInput) {
-        currentInput = newInput;
-        Serial.write(currentInput);
-    }
+    currentInput = getInput();
 }
 
 void loop() {
   // Nothing needed
+  delay(2);
+  Serial.write(currentInput);
 }

@@ -41,7 +41,7 @@ func getKeyFromByte(b byte) string {
     case 4: //down
         return "down"
     default: //wtf
-        return "k"
+        return ""
     }
 }
 
@@ -60,14 +60,24 @@ func waitForInterrupt(c chan os.Signal, port *serial.Port) {
 
 func main() {
     s := openSerial()
-
+    
     c := make(chan os.Signal, 2)
     signal.Notify(c, os.Interrupt, syscall.SIGTERM)
     go waitForInterrupt(c, s)
 
+    var lastKey string = "" 
     for true {
         b := getByteFromPort(s)
         key := getKeyFromByte(b)
-        robotgo.KeyTap(key)
+        if (key == "" && lastKey != "") {
+            robotgo.KeyToggle(lastKey, "up")
+            lastKey = ""
+        } else if (key != lastKey) {
+            if (lastKey != "") {
+                robotgo.KeyToggle(lastKey, "up")
+            }
+            robotgo.KeyToggle(key, "down")
+            lastKey = key
+        } 
     }
 }
