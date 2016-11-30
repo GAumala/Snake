@@ -17,16 +17,24 @@ void setup(){
   pciSetup(LEFT_INPUT);
 }
 
+byte getInput() {
+  if (digitalRead(UP_INPUT) == HIGH)
+    return UP_INPUT;
+  else if (digitalRead(RIGHT_INPUT) == HIGH)
+    return RIGHT_INPUT;
+  else if (digitalRead(DOWN_INPUT) == HIGH)
+    return DOWN_INPUT;
+  else if (digitalRead(LEFT_INPUT) == HIGH)
+    return LEFT_INPUT;
+
+  return 0;
+}
+
 ISR (PCINT2_vect) // handle pin change interrupt for D0 to D7 here
 {
-  if (digitalRead(UP_INPUT) == HIGH)
-    Serial.write(UP_INPUT);
-  else if (digitalRead(RIGHT_INPUT) == HIGH)
-    Serial.write(RIGHT_INPUT);
-  else if (digitalRead(DOWN_INPUT) == HIGH)
-    Serial.write(DOWN_INPUT);
-  else if (digitalRead(LEFT_INPUT) == HIGH)
-    Serial.write(LEFT_INPUT);
+    byte currentInput = getInput();
+    if (currentInput)
+        Serial.write(currentInput);
 }
 
 void loop() {

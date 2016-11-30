@@ -2,6 +2,10 @@ package main
 
 import (
     "log"
+    "os"
+    "os/signal"
+    "syscall"
+
     "github.com/tarm/serial"
     "github.com/go-vgo/robotgo"
 )
@@ -28,22 +32,38 @@ func getByteFromPort(port *serial.Port) byte {
 
 func getKeyFromByte(b byte) string {
     switch b {
-    case 7:
-        return "w"
-    case 6:
-        return "d"
-    case 5:
-        return "s"
-    case 4:
-        return "a"
-    default:
+    case 7: //left
+        return "left"
+    case 6: //right
+        return "right"
+    case 5: //up
+        return "up"
+    case 4: //down
+        return "down"
+    default: //wtf
         return "k"
     }
 }
 
+func waitForInterrupt(c chan os.Signal, port *serial.Port) {
+    <-c
+    err := port.Close()
+    if (err == nil) {
+        log.Println("Successfully closed port")
+    } else {
+        log.Fatal(err)   
+    }
+
+    os.Exit(1)
+}
 
 func main() {
     s := openSerial()
+
+    c := make(chan os.Signal, 2)
+    signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+    go waitForInterrupt(c, s)
+
     for true {
         b := getByteFromPort(s)
         key := getKeyFromByte(b)
