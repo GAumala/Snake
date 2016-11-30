@@ -49,6 +49,7 @@ func waitForInterrupt(c chan os.Signal, port *serial.Port) {
     <-c
     err := port.Close()
     if (err == nil) {
+        log.Println("!!!")
         log.Println("Successfully closed port")
     } else {
         log.Fatal(err)   

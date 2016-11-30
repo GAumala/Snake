@@ -3,6 +3,8 @@ const byte RIGHT_INPUT = 6;
 const byte DOWN_INPUT = 5;
 const byte LEFT_INPUT = 4;
 
+byte currentInput = 0;
+
 void pciSetup(byte pin)
 {
     *digitalPinToPCMSK(pin) |= bit (digitalPinToPCMSKbit(pin));  // enable pin
@@ -32,9 +34,11 @@ byte getInput() {
 
 ISR (PCINT2_vect) // handle pin change interrupt for D0 to D7 here
 {
-    byte currentInput = getInput();
-    if (currentInput)
+    byte newInput = getInput();
+    if (newInput && newInput != currentInput) {
+        currentInput = newInput;
         Serial.write(currentInput);
+    }
 }
 
 void loop() {
