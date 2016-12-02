@@ -180,8 +180,7 @@ void push_head(void)
     mat[head.x][head.y] = 1;
 }
 
-void gameover(void)
-{
+void gameover(void){
     printf("Snake Length: %d\n", snake.len);
     printf("Game Over\n");
     exit(0);
