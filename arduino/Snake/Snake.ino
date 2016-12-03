@@ -2,6 +2,7 @@ const byte UP_INPUT = 7;
 const byte RIGHT_INPUT = 6;
 const byte DOWN_INPUT = 5;
 const byte LEFT_INPUT = 4;
+const byte ENTER_INPUT = 3;
 
 byte currentInput = 0;
 
@@ -17,6 +18,7 @@ void setup(){
   pciSetup(RIGHT_INPUT);
   pciSetup(DOWN_INPUT);
   pciSetup(LEFT_INPUT);
+  pciSetup(ENTER_INPUT);
 }
 
 byte getInput() {
@@ -28,6 +30,8 @@ byte getInput() {
     return DOWN_INPUT;
   else if (digitalRead(LEFT_INPUT) == HIGH)
     return LEFT_INPUT;
+  else if (digitalRead(ENTER_INPUT) == HIGH) 
+      return ENTER_INPUT;
 
   return 0;
 }
@@ -40,5 +44,4 @@ ISR (PCINT2_vect) // handle pin change interrupt for D0 to D7 here
 void loop() {
   // Nothing needed
   delay(2);
-  Serial.write(currentInput);
-}
+  Serial.write(currentInput); }

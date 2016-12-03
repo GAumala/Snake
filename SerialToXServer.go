@@ -40,6 +40,8 @@ func getKeyFromByte(b byte) string {
         return "up"
     case 4: //down
         return "down"
+    case 3: //down
+        return "enter"
     default: //wtf
         return ""
     }
